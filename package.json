@@ -1,18 +1,29 @@
 {
   "name": "flowforge-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Production-ready Task & Workspace Management REST API",
+  "type": "module",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "jwt",
+    "rest-api"
+  ],
+  "author": "Srikanth",
+  "license": "MIT",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.4"
   },
   "devDependencies": {
