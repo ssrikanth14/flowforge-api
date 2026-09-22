@@ -6,4 +6,5 @@ export const JWT_CONFIG = Object.freeze({
 
   accessTokenExpiry: env.accessTokenExpiry,
   refreshTokenExpiry: env.refreshTokenExpiry,
+  refreshTokenExpiryMs: env.refreshTokenExpiryMs,
 });

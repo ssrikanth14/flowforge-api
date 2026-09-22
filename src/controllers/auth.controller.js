@@ -1,7 +1,10 @@
 import * as authService from "../services/auth/index.js";
 
 import { successResponse } from "../utils/response.js";
-import { setRefreshTokenCookie } from "../utils/cookies.js";
+import {
+  clearRefreshTokenCookie,
+  setRefreshTokenCookie,
+} from "../utils/cookies.js";
 
 export const register = async (req, res) => {
   const result = await authService.register(req.body);
@@ -48,8 +51,16 @@ export const login = async (req, res) => {
 
 
 
-// Coming next sprint
-export const refresh = async (req, res) => {};
+export const refresh = async (req, res) => {
+  const result = await authService.refreshAccessToken(req.cookies?.refreshToken);
+  setRefreshTokenCookie(res, result.refreshToken);
+  return successResponse(res, 200, "Token refreshed successfully.", {
+    accessToken: result.accessToken,
+  });
+};
 
-// Coming next sprint
-export const logout = async (req, res) => {};
+export const logout = async (req, res) => {
+  await authService.logout(req.cookies?.refreshToken);
+  clearRefreshTokenCookie(res);
+  return successResponse(res, 200, "Logged out successfully.");
+};

@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import Session from "../models/Session.js";
 
 const findUserByEmail = (email) =>
-  User.findByEmail({email});
+  User.findByEmail(email);
 
 const createUser = (data) =>
   User.create(data);

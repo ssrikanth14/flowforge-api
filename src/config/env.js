@@ -25,6 +25,12 @@ const env = {
 
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
 
+  accessTokenExpiry: process.env.JWT_ACCESS_EXPIRES_IN || "15m",
+
+  refreshTokenExpiry: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
+
+  refreshTokenExpiryMs: Number(process.env.JWT_REFRESH_EXPIRES_MS) || 7 * 24 * 60 * 60 * 1000,
+
   cookieExpiresIn: Number(process.env.COOKIE_EXPIRES_IN) || 7,
 };
 

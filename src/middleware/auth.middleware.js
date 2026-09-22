@@ -20,7 +20,12 @@ export const protect = async (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  const payload = verifyAccessToken(token);
+  let payload;
+  try {
+    payload = verifyAccessToken(token);
+  } catch {
+    return next(new AppError("Access token is invalid or expired.", HTTP_STATUS.UNAUTHORIZED));
+  }
 
   const user = await authRepository.findUserById(
     payload.userId

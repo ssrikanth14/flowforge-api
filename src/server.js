@@ -8,7 +8,7 @@ const startServer = async () => {
     await connectDB();
 
     // Start Express Server
-    app.listen(env.port, () => {
+    const server = app.listen(env.port, () => {
       console.log("====================================");
       console.log("🚀 FlowForge API Started");
       console.log(`🌍 Environment : ${env.nodeEnv}`);
@@ -16,6 +16,18 @@ const startServer = async () => {
       console.log(`🔗 URL         : http://localhost:${env.port}`);
       console.log("====================================");
     });
+
+    const shutdown = async (signal) => {
+      console.log(`${signal} received. Closing server.`);
+      server.close(async () => {
+        const mongoose = await import("mongoose");
+        await mongoose.default.connection.close();
+        process.exit(0);
+      });
+    };
+
+    process.once("SIGINT", () => shutdown("SIGINT"));
+    process.once("SIGTERM", () => shutdown("SIGTERM"));
   } catch (error) {
     console.error("❌ Failed to start application");
     console.error(error);

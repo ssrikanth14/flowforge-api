@@ -31,7 +31,7 @@ export const refreshAccessToken = async (
       payload.sessionId
     );
 
-  if (!session || session.isRevoked) {
+  if (!session || session.isRevoked || session.expiresAt <= new Date()) {
     throw new AppError("Session expired.", 401);
   }
 
@@ -74,6 +74,11 @@ export const refreshAccessToken = async (
     await authRepository.findUserById(
       payload.userId
     );
+
+  if (!user) {
+    await authRepository.revokeSession(session._id);
+    throw new AppError("User not found.", 401);
+  }
 
   const accessToken =
     generateAccessToken({

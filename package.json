@@ -6,7 +6,8 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "check": "node --check src/app.js && node --check src/server.js"
   },
   "keywords": [
     "nodejs",
@@ -24,6 +25,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^1.47.0",
     "mongoose": "^9.7.4",
     "zod": "^4.4.3"
   },

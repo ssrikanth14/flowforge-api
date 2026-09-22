@@ -8,6 +8,7 @@ import {
 } from "../../utils/token.js";
 
 import { hashPassword } from "../../utils/password.js";
+import { JWT_CONFIG } from "../../config/jwt.js";
 
 import AppError from "../../utils/AppError.js";
 
@@ -42,7 +43,7 @@ export const register = async (userData) => {
     userId: user._id,
     refreshTokenHash,
     expiresAt: new Date(
-      Date.now() + 7 * 24 * 60 * 60 * 1000
+      Date.now() + JWT_CONFIG.refreshTokenExpiryMs
     ),
   });
 
