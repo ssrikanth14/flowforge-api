@@ -83,7 +83,10 @@ function App() {
     try {
       const data = await api('/workspaces')
       setWorkspaces(data.workspaces || [])
-      if (data.workspaces?.length) selectWorkspace(data.workspaces[0]._id)
+      if (data.workspaces?.length) {
+        const selectedWorkspace = data.workspaces.find((item) => item._id === workspace?._id) || data.workspaces[0]
+        selectWorkspace(selectedWorkspace._id)
+      }
       else { setWorkspace(null); setProjects([]); setProject(null); setTasks([]) }
     } catch (requestError) { setError(requestError.message) }
   }
@@ -123,7 +126,7 @@ function App() {
 
   async function submitTask(event) {
     event.preventDefault(); const form = new FormData(event.currentTarget); const editing = modal.mode === 'edit'
-    const payload = { title: form.get('title'), description: form.get('description') || '', status: form.get('status'), priority: form.get('priority'), dueDate: form.get('dueDate') || null }
+    const payload = { title: form.get('title'), description: form.get('description') || '', status: form.get('status'), priority: form.get('priority'), assignee: form.get('assignee') || user.id, dueDate: form.get('dueDate') || null }
     try { const data = await api(editing ? `/tasks/${modal.task._id}` : `/projects/${project._id}/tasks`, { method: editing ? 'PATCH' : 'POST', body: JSON.stringify(payload) }); closeModal(); setNotice(editing ? 'Task updated' : 'Task created'); setTasks((current) => editing ? current.map((item) => item._id === data.task._id ? data.task : item) : [data.task, ...current]) } catch (requestError) { setError(requestError.message) }
   }
 
