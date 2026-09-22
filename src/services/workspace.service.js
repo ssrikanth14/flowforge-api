@@ -70,6 +70,7 @@ export const removeMember = async (workspaceId, userId, memberId) => {
   const { workspace, member } = await requireWorkspaceMember(workspaceId, userId);
   requireManager(member);
   if (workspace.owner.toString() === memberId.toString()) throw new AppError("The workspace owner cannot be removed.", 400);
+  if (!getMember(workspace, memberId)) throw new AppError("Workspace member not found.", 404);
   workspace.members = workspace.members.filter((item) => item.user.toString() !== memberId.toString());
   await workspace.save();
 };
